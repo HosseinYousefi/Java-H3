@@ -63,7 +63,7 @@ public class MyHashMap<K, V> implements Map<K, V> {
     public boolean containsValue(Object value) {
         for (K key: keys)
             for (Element<K, V> elem: table[myHash(key)])
-                if (elem.value.equals(value))
+                if (elem.getValue().equals(value))
                     return true;
         return false;
     }
@@ -73,17 +73,17 @@ public class MyHashMap<K, V> implements Map<K, V> {
         if (!containsKey(key))
             return null;
         for (Element<K, V> elem: table[myHash(key)])
-            if (elem.key.equals(key))
-                return elem.value;
+            if (elem.getKey().equals(key))
+                return elem.getValue();
         return null;
     }
 
     @Override
     public V put(K key, V value) {
         if (containsKey(key))
-            for (Element<K, V> elem : table[myHash(key)])
-                if (elem.key.equals(key))
-                    return elem.value = value;
+            for (Element<K, V> elem: table[myHash(key)])
+                if (elem.getKey().equals(key))
+                    return elem.setValue(value);
         if (!keys.add(key))
             return null;
         if (table[myHash(key)] == null)
@@ -97,9 +97,9 @@ public class MyHashMap<K, V> implements Map<K, V> {
         if (!containsKey(key))
             return null;
         if (keys.remove(key))
-            for (Element<K, V> elem : table[myHash(key)])
+            for (Element<K, V> elem: table[myHash(key)])
                 if (elem.key.equals(key)) {
-                    V ret = elem.value;
+                    V ret = elem.getValue();
                     table[myHash(key)].remove(elem);
                     return ret;
                 }
@@ -127,7 +127,7 @@ public class MyHashMap<K, V> implements Map<K, V> {
         Collection<V> ans = new HashSet<V>();
         for (K key: keys)
             for (Element<K, V> elem: table[myHash(key)])
-                ans.add(elem.value);
+                ans.add(elem.getValue());
         return ans;
     }
 
@@ -159,5 +159,9 @@ public class MyHashMap<K, V> implements Map<K, V> {
         for (Entry<String, String> e: myHashMap.entrySet())
             System.out.println(e.getKey() + ": " + e.getValue());
         System.out.println("}");
+
+        myHashMap.clear();
+
+        System.out.println(myHashMap.size());
     }
 }
