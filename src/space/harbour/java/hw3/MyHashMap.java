@@ -98,7 +98,7 @@ public class MyHashMap<K, V> implements Map<K, V> {
             return null;
         if (keys.remove(key))
             for (Element<K, V> elem: table[myHash(key)])
-                if (elem.key.equals(key)) {
+                if (elem.getKey().equals(key)) {
                     V ret = elem.getValue();
                     table[myHash(key)].remove(elem);
                     return ret;
